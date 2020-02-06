@@ -12,7 +12,7 @@ _input_folder = "./input/"
 _output_folder = "./output/"
 _tmp_folder = "./tmp/"
 _final_sorted_result = "async_sorted.txt"
-_execution_time = "async_time.txt"
+#_execution_time = "async_time.txt"
 
 async def sort():
 
@@ -20,7 +20,7 @@ async def sort():
 	create_folders()	
 
 	# Mark the start time exclude the folder creation time.
-	t_start = time.process_time()
+	#t_start = time.process_time()
 
 	# Phase 1: sort files and save sorted result into a tmp folder
 	unsorted_files = [f for f in listdir(_input_folder) if isfile(join(_input_folder, f))]
@@ -61,9 +61,9 @@ async def sort():
 			if val.result() is not None:
 				heappush(pq, (val.result(), input_buffer))
 
-	t_pass = time.process_time() - t_start
-	with open(join(_output_folder, _execution_time), 'w') as time_txt:
-		time_txt.write(str(t_pass) + " seconds")
+	#t_pass = time.process_time() - t_start
+	#with open(join(_output_folder, _execution_time), 'w') as time_txt:
+		#time_txt.write(str(t_pass) + " seconds")
 
 	cleanup()
 	
