@@ -1,5 +1,4 @@
 import asyncio
-from aiofile import AIOFile, LineReader, Writer # For async file io
 from os import listdir
 import os, sys
 from os.path import isfile, join
@@ -45,7 +44,7 @@ async def sort():
 		# We first push the first element of each buffer into priority queue
 		for input_buffer in input_buffers:
 			val = loop.create_task(input_buffer.getNext())
-			await val
+			await asyncio.wait([val])
 			if val.result() is not None:
 				heappush(pq, (val.result(), input_buffer))
 
@@ -58,13 +57,13 @@ async def sort():
 			
 			# Now push next element of buffer into the priority queue
 			val = loop.create_task(input_buffer.getNext())
-			await val
+			await asyncio.wait([val])
 			if val.result() is not None:
 				heappush(pq, (val.result(), input_buffer))
 
 	t_pass = time.process_time() - t_start
 	with open(join(_output_folder, _execution_time), 'w') as time_txt:
-		time_txt.write(str(t_pass)+" seconds")
+		time_txt.write(str(t_pass) + " seconds")
 
 	cleanup()
 	
@@ -88,20 +87,18 @@ def create_folders():
 # Once this function is doing the I/O, it could preempt.
 async def sort_file_and_write_tmp(f):
 	unsorted_array = []
-	async with AIOFile(join(_input_folder, f), 'r') as input:
-		async for line in LineReader(input):
+	with open(join(_input_folder, f), 'r') as input:
+		for line in input:
 			unsorted_array.append(int(line))
 
 	# For now I am using python builtin sort function
 	# can re-implement sort function if TA really want it.
 	unsorted_array.sort() # default sort in ascending order
 
-	async with AIOFile(join(_tmp_folder, f), 'w') as output:
-		writer = Writer(output)
+	with open(join(_tmp_folder, f), 'w') as output:
 		for number in unsorted_array:
-			await writer(str(number))
-			await writer("\n")
-		await output.fsync()	
+			output.write(str(number))
+			output.write("\n")	
 
 # Clean temporary files
 def cleanup():

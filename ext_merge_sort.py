@@ -48,10 +48,10 @@ def sort():
 			val = input_buffer.getNext()
 			if val is not None:
 				heappush(pq, (val, input_buffer))
-	
+
 	t_pass = time.process_time() - t_start
 	with open(join(_output_folder, _execution_time), 'w') as time_txt:
-		time_txt.write(str(t_pass)+" seconds")
+		time_txt.write(str(t_pass) + " seconds")
 
 	cleanup()
 	
