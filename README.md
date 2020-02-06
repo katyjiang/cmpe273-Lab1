@@ -22,9 +22,9 @@ Commit your changes into your public Github repository (cmpe273-lab1) and your f
 
 1. ext_merge_sort.py
 2. async_ext_merge_sort.py
-3. all unsorted_*.txt files
-4. all sorted_.txt files
-4. time.txt and async_time.txt
+3. all unsorted_*.txt files （input folder）
+4. all sorted_.txt files     (output folder)
+4. time.txt and async_time.txt (output folder)
 
 
 
